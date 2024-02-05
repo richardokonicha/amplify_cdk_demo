@@ -2,36 +2,24 @@ import * as cdk from 'aws-cdk-lib';
 import { Construct } from 'constructs';
 import { CfnApp, CfnBranch, CfnDomain } from 'aws-cdk-lib/aws-amplify';
 
-// import { App } from 'aws-cdk-lib/aws-amplify';
-// import { AppProps } from 'aws-cdk-lib/aws-amplify';
-// import { CfnApp } from 'aws-cdk-lib/aws-amplify';
-// import * as sqs from 'aws-cdk-lib/aws-sqs';
-
 export class InfraStack extends cdk.Stack {
   constructor(scope: Construct, id: string, props?: cdk.StackProps) {
     super(scope, id, props);
 
-    // The code that defines your stack goes here
-
-    // example resource
-    // const queue = new sqs.Queue(this, 'InfraQueue', {
-    //   visibilityTimeout: cdk.Duration.seconds(300)
-    // });
-
-    const amplifyDemo = new CfnApp(this, 'DemoAmplify', {
+    const app = new CfnApp(this, 'DemoApp', {
       name: 'amplify_cdk_demo',
-      repository: 'https://github.com/richardokonicha/amplify_cdk_demo.git',
-      oauthToken: 'ghp_sometokeen '
-      // oauthToken: cdk.SecretValue.secretsManager('github-token')
+      repository: 'https://github.com/richardokonicha/amplify_cdk_demo',
+      accessToken: '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'
+      // https://github.com/apps/aws-amplify-eu-north-1/installations/new - to install amplify app
     });
 
-    new CfnBranch(this, 'MasterBranch', {
-      appId: amplifyDemo.attrAppId,
+    new CfnBranch(this, 'DemoBranch', {
+      appId: app.attrAppId,
       branchName: 'main' // you can put any branch here (careful, it will listen to changes on this branch)
     });
+
   }
 }
-
 
 // for when we not usng modules
 // const app = new cdk.App();
